@@ -1,0 +1,5 @@
+# Versioning and metadata
+.git
+.gitignore
+.dockerignore
+

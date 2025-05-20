@@ -1,0 +1,21 @@
+# Dockerfile.dev
+
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy source files
+COPY . .
+
+# Expose port
+EXPOSE 3003
+
+VOLUME [ "/data" ]
+
+# Start NestJS in watch mode
+CMD ["npm", "run", "start:dev"]

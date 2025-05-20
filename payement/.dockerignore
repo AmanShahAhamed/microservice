@@ -1,0 +1,13 @@
+node_modules
+Dockerfile
+
+# Build dependencies
+dist.do
+
+# Environment (contains sensitive data)
+*.env
+
+# Misc
+.eslintrc.js
+.prettierrc
+README.md
