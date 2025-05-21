@@ -157,7 +157,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: user-management-service
     ports:
-      - "3007:3007"
+      - "3004:3004"
     volumes:
       - ./user-management:/usr/src/app
     depends_on:

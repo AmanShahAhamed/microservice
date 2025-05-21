@@ -17,6 +17,6 @@ export class User extends CustomBaseEntity {
   @Column()
   email!: string;
 
-  @Column({ type: 'int' })
-  role!: number;
+  @Column({ type: 'int' ,default:Role.User,nullable:true})
+  role?: number;
 }
