@@ -84,6 +84,7 @@ services:
       - nest-network
     environment:
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT 3000
 
   inventory-service-dev:
     build:
@@ -106,6 +107,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=password
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT 3001
 
   order-service-dev:
     build:
@@ -135,7 +137,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: payement-service
     ports:
-      - "3005:3005"
+      - "3003:3003"
     volumes:
       - ./payement:/usr/src/app
     depends_on:
@@ -150,6 +152,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=password
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT 3003
 
   user-management-service-dev:
     build:
@@ -172,6 +175,19 @@ services:
       - DB_USER=postgres
       - DB_PASS=password
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT 3004
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: SuperSecret
+    ports:
+      - "8080:80"
+    depends_on:
+      - user-db
+    networks:
+      - nest-network
 
 volumes:
   inventory-db-data:
