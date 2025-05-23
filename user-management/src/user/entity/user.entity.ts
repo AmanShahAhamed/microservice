@@ -1,5 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { CustomBaseEntity } from '../../common/custom-base.entity';
+import { Exclude } from 'class-transformer';
 
 export enum Role {
   Admin,
@@ -12,11 +13,15 @@ export class User extends CustomBaseEntity {
   name!: string;
 
   @Column()
+  @Exclude()
   password!: string;
 
   @Column()
   email!: string;
 
+
   @Column({ type: 'int' ,default:Role.User,nullable:true})
+
+
   role?: number;
 }

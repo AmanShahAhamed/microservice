@@ -183,7 +183,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: user@domain.com
       PGADMIN_DEFAULT_PASSWORD: SuperSecret
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - user-db
     networks:

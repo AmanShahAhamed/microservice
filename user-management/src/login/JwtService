@@ -1,0 +1,18 @@
+// auth.module.ts (or app.module.ts)
+import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+
+@Module({
+  imports: [
+    JwtModule.registerAsync({
+      useFactory: (config: ConfigService) => ({
+        secret: config.get('JWT_SECRET'),
+        signOptions: { expiresIn: config.get('JWT_EXPIRES_IN') },
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+  exports: [JwtModule], // ✅ Export it so others can use JwtService
+})
+export class AuthModule {}
