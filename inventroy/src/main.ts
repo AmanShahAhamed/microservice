@@ -1,11 +1,21 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { InventoryModule } from './inventory.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT ?? 3001;
-  Logger.log(`app is running on ${port}`);
-  await app.listen(port);
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    InventoryModule,
+    {
+      transport: Transport.RMQ,
+      options: {
+        urls: ['amqp://localhost:5672'],
+        queue: 'inventory_queue',
+        queueOptions: {
+          durable: false,
+        },
+      },
+    },
+  );
+  await app.listen();
 }
 bootstrap();

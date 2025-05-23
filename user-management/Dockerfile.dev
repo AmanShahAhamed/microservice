@@ -6,8 +6,9 @@ FROM node:20-alpine
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package*.json ./
-RUN npm install
+COPY package*.json yarn.lock ./
+
+RUN yarn install
 
 # Copy source files
 COPY . .
@@ -18,4 +19,4 @@ EXPOSE 3004
 VOLUME [ "/data" ]
 
 # Start NestJS in watch mode
-CMD ["npm", "run", "start:dev"]
+CMD ["yarn", "run", "start:dev"]
