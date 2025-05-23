@@ -1,11 +1,50 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigService } from '@nestjs/config';
-import { ClientProxyFactory } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+// import { InventoryController } from './inventory/inventory.controller';
+import { InventoryModule } from './inventory/inventory.module';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [
+        () => ({
+          inventoryService: {
+            transport: Transport.TCP,
+            options: {
+              host: 'inventory-service',
+              port: 4001,
+            },
+          },
+          orderService: {
+            transport: Transport.TCP,
+            options: {
+              host: 'order-service',
+              port: 4002,
+            },
+          },
+          paymentService: {
+            transport: Transport.TCP,
+            options: {
+              host: 'payment-service',
+              port: 4003,
+            },
+          },
+          userManagementService: {
+            transport: Transport.TCP,
+            options: {
+              host: 'user-management-service',
+              port: 4004,
+            },
+          },
+        }),
+      ],
+    }),
+    InventoryModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
@@ -14,6 +53,9 @@ import { ClientProxyFactory } from '@nestjs/microservices';
       provide: 'INVENTORY_SERVICE',
       useFactory: (configService: ConfigService) => {
         const tokenServiceOptions = configService.get('inventoryService');
+        if (!tokenServiceOptions) {
+          throw new Error('Missing config for inventoryService');
+        }
         return ClientProxyFactory.create(tokenServiceOptions);
       },
       inject: [ConfigService],

@@ -1,17 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Inventory } from '../entities/inventory.entity';
-import { Repository } from 'typeorm';
-import { ICreateInventory } from '../interface/create-inventory.interface';
+import { Inventory } from 'src/entities/inventory.entity';
+import { Repository } from 'typeorm/repository/Repository';
 
-@Injectable()
+@Controller()
 export class InventoryService {
-  constructor(
-    @InjectRepository(Inventory)
-    private readonly inventoryRepo: Repository<Inventory>,
-  ) {}
+  constructor() {} // private readonly inventoryRepository: Repository<Inventory>, // @InjectRepository(Inventory)
 
-  async create(payload: ICreateInventory): Promise<Inventory> {
-    return this.inventoryRepo.save(payload);
+  create() {
+    return { message: 'Created inventory' };
   }
+
+  // @MessagePattern({ cmd: 'inventory_find_all' })
+  // findAll() {
+  //   return ['item1', 'item2'];
+  // }
+
+  // @MessagePattern({ cmd: 'inventory_find_one' })
+  // findOne(data: { id: number }) {
+  //   return { id: data.id, name: 'Test Item' };
+  // }
+
+  // @MessagePattern({ cmd: 'inventory_update' })
+  // update(data: { id: number; updateInventoryDto: UpdateInventoryDto }) {
+  //   return { message: 'Updated inventory', data };
+  // }
+
+  // @MessagePattern({ cmd: 'inventory_remove' })
+  // remove(data: { id: number }) {
+  //   return { message: `Deleted inventory with id ${data.id}` };
+  // }
 }

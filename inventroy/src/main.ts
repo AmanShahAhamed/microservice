@@ -1,21 +1,22 @@
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+// import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { InventoryModule } from './inventory.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
+  // const app = await NestFactory.create(InventoryModule);
+
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     InventoryModule,
     {
-      transport: Transport.RMQ,
+      transport: Transport.TCP,
       options: {
-        urls: ['amqp://localhost:5672'],
-        queue: 'inventory_queue',
-        queueOptions: {
-          durable: false,
-        },
+host: 'api-gateway', // ✅ Use service name from docker-compose
+        port: 3002, // internal TCP port
       },
     },
   );
+
   await app.listen();
 }
 bootstrap();

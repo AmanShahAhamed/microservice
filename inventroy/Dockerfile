@@ -20,6 +20,6 @@ RUN npm install --omit=dev
 
 COPY --from=builder /usr/src/app/dist ./dist
 
-EXPOSE 3001
+EXPOSE 3002
 
 CMD ["node", "dist/main"]

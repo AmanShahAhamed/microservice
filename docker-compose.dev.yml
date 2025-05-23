@@ -72,7 +72,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: api-gateway
     ports:
-      - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./api-gateway:/usr/src/app
     depends_on:
@@ -84,7 +84,7 @@ services:
       - nest-network
     environment:
       - RABBITMQ_URL=amqp://rabbitmq:5672
-      - PORT 3000
+      - PORT 3001
 
   inventory-service-dev:
     build:
@@ -92,7 +92,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: inventory-service
     ports:
-      - "3001:3001"
+      - "3002:3002"
     volumes:
       - ./inventroy:/usr/src/app
     depends_on:
@@ -107,7 +107,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=password
       - RABBITMQ_URL=amqp://rabbitmq:5672
-      - PORT 3001
+      - PORT 3002
 
   order-service-dev:
     build:
@@ -115,7 +115,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: order-service
     ports:
-      - "3002:3002"
+      - "3005:3005"
     volumes:
       - ./order:/usr/src/app
     depends_on:
@@ -130,6 +130,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=password
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT 3005
 
   payment-service-dev:
     build:
