@@ -6,7 +6,7 @@ export class Inventory extends CustomBaseEntity {
   @Column()
   name: string;
 
-  @Column({ type: 'tinytext', nullable: true })
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @Column({ type: 'int', default: 0, nullable: true })

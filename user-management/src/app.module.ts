@@ -7,12 +7,13 @@ import { typeOrmConfig } from './config/typeorm.config';
 import { UserLoginModule } from './login/userlogin.module';
 import { UserModule } from './user/user.module';
 import { UserDetailModule } from './detail/userdetail.module';
+import { ResetPasswordModule } from './resetpassword/sentotp/resetpassword.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync(typeOrmConfig),
-    UserModule,UserLoginModule, UserDetailModule
+    UserModule,UserLoginModule, UserDetailModule,ResetPasswordModule
   ],
   controllers: [AppController],
   providers: [AppService],

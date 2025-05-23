@@ -11,13 +11,16 @@ export enum Role {
 export class User extends CustomBaseEntity {
   @Column()
   name!: string;
-
+ 
   @Column()
   @Exclude()
   password!: string;
 
   @Column()
   email!: string;
+
+  // @Column()
+  // otp!: string;
 
 
   @Column({ type: 'int' ,default:Role.User,nullable:true})

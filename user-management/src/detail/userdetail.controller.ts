@@ -9,6 +9,10 @@ export class UserDetailController {
   @Get('profile')
   @UseGuards(JwtTokenGuard)
   async getProfile(@Request() req) {
-    return this.userService.getUserProfile(req.user.userId);
+    const userFromToken = req.user; // contains email, userId, etc.
+    return {
+      message: 'User profile from token',
+      profile: userFromToken,
+    };
   }
 } 
