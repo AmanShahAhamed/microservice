@@ -1,9 +1,10 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './entity/user.entity';
 import { UserCreateDto } from './dto/create-user.dto';
+import { MailService } from '@sendgrid/mail';
 
 @Injectable()
 export class UserService {
@@ -11,6 +12,18 @@ export class UserService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
+
+    find(options?:FindManyOptions<User>){
+    return this.userRepository.find(options)
+  }
+
+  findOne(options: FindOneOptions<User>){
+    return this.userRepository.findOne(options)
+  }
+
+  save(entities: DeepPartial<User>[]){
+    return this.userRepository.save(entities)
+  }
 
   async create(dto: UserCreateDto): Promise<any> {
     const existingUser = await this.userRepository.findOne({
@@ -39,4 +52,14 @@ export class UserService {
       user: userWithoutPassword,
     };
   }
+ 
+  async getUserProfileByEmail(email: string) {
+      const user = await this.userRepository.findOne({ where: { email } });
+      if (!user) throw new NotFoundException('User not found');
+  
+      const { password, createdAt, updatedAt, ...safeUser } = user;
+      return safeUser;
+    }
+
 }
+

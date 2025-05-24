@@ -19,8 +19,8 @@ export class User extends CustomBaseEntity {
   @Column()
   email!: string;
 
-  // @Column()
-  // otp!: string;
+  @Column({nullable:true})
+  otp?: string;
 
 
   @Column({ type: 'int' ,default:Role.User,nullable:true})
