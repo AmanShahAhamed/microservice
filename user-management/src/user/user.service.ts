@@ -13,7 +13,7 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-    find(options?:FindManyOptions<User>){
+  find(options?:FindManyOptions<User>){
     return this.userRepository.find(options)
   }
 
@@ -23,6 +23,10 @@ export class UserService {
 
   save(entities: DeepPartial<User>[]){
     return this.userRepository.save(entities)
+  }
+
+  update(dto: User): Promise<any>{
+    return this.userRepository.update(dto.id,dto);
   }
 
   async create(dto: UserCreateDto): Promise<any> {
@@ -35,7 +39,7 @@ export class UserService {
     }
 
     // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
+    const hashedPassword = await this.hashNewPassword(dto.password);
 
     const newUser = this.userRepository.create({
       ...dto,
@@ -59,7 +63,26 @@ export class UserService {
   
       const { password, createdAt, updatedAt, ...safeUser } = user;
       return safeUser;
-    }
+  }
 
+  
+  async changePassword(email:string, newpassword: string) : Promise<any>{
+    const user = await this.userRepository.findOne({ where: { email } });
+      if (!user) throw new NotFoundException('User not found');
+       
+      const decpassword = await this.hashNewPassword(newpassword);
+      user.password = decpassword;
+      this.userRepository.save(user);
+      return {
+        "message":"Password change successfully"
+      };
+  }
+
+  async hashNewPassword(password: string): Promise<string> {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+  }
+  
 }
 

@@ -1,8 +1,10 @@
-import { Controller, Post, Body, UnauthorizedException, Get } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, Get, UseGuards } from '@nestjs/common';
 import { UserLoginDto } from './dto/userlogin.dto';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { AuthService } from './auth.service';
 import { Public } from 'src/decorator/public.decorator';
+import { RestPasswordDto } from './dto/resetpassworddto';
+import { JwtTokenGuard } from 'src/JwtAuthGuard';
 
 
 @Controller('auth')
@@ -29,5 +31,6 @@ export class UserLoginController {
     return Math.floor(100000 + Math.random() * 900000).toString();
   }
 
+  
 
 }

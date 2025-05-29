@@ -1,17 +1,29 @@
-import { Column, Entity } from 'typeorm';
-import { CustomBaseEntity } from '../common/customeBase.entity';
 
-@Entity()
-export class Inventory extends CustomBaseEntity {
-  @Column()
-  name: string;
+import { CustomBaseEntity } from "src/common/customeBase.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-  @Column({ type: 'text', nullable: true })
-  description?: string;
+@Entity("inventory")
+export class Inventory extends CustomBaseEntity{
 
-  @Column({ type: 'int', default: 0, nullable: true })
-  stock?: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ type: 'boolean', default: true })
-  status?: number;
+    @Column({unique:true})
+    name: string;
+
+    @Column()
+    desc: string;
+
+    @Column()
+    stock: string;
+
+    @Column()
+    price: string;
+
+    @Column()
+    active: boolean;
+
+    @Column()
+    discount: string;
+
 }

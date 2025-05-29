@@ -17,7 +17,7 @@ export const typeOrmConfig: TypeOrmModuleAsyncOptions = {
     database: configService.getOrThrow<string>('DB_NAME'),
     entities: ['dist/*/**/***.entity{.ts,.js}'],
     migrations: ['dist/*/**/***.migration{.ts,.js}'],
-    synchronize: false,
+    synchronize: true,
     autoLoadEntities: true,
     // logger: 'simple-console',
     // logging: true,
